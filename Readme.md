@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Елизавета Шошкина](https://up.htmlacademy.ru/javascript/21/user/1061045).
-* Наставник: `Неизвестно`.
+* Наставник: `Кексобот`.
 
 ---
 
