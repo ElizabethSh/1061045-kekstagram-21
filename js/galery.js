@@ -6,21 +6,30 @@
                                 .querySelector(`.picture`);
   const picturesList = document.querySelector(`.pictures`);
 
-  const renderPictures = (photo) => {
+  const renderPicture = (photo) => {
     const picture = pictureTemplate.cloneNode(true);
 
     picture.querySelector(`img`).src = photo.url;
     picture.querySelector(`.picture__likes`).textContent = photo.likes;
     picture.querySelector(`.picture__comments`).textContent = photo.comments.length;
 
+    picture.addEventListener(`click`, function (evt) {
+      evt.preventDefault();
+      window.picture.openPicture(photo);
+    });
+
     return picture;
   };
 
-  const fragment = document.createDocumentFragment();
+  const renderPictures = () => {
+    const fragment = document.createDocumentFragment();
 
-  window.mock.photos.forEach((photo) => {
-    fragment.appendChild(renderPictures(photo));
-  });
+    window.mock.photos.forEach((photo) => {
+      fragment.appendChild(renderPicture(photo));
+    });
 
-  picturesList.appendChild(fragment);
+    picturesList.appendChild(fragment);
+  };
+
+  renderPictures();
 })();
