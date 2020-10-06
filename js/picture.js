@@ -7,6 +7,7 @@
   const commentTemplate = document.querySelector(`#comment`)
                                   .content
                                   .querySelector(`.social__comment`);
+  const closeButton = bigPicture.querySelector(`.big-picture__cancel`);
 
   const photo = window.mock.photos[0];
   const comments = photo.comments;
@@ -32,6 +33,25 @@
   });
 
   commentsList.appendChild(fragment);
+
+  const closePicture = () => {
+    bigPicture.classList.add(`hidden`);
+    body.classList.remove(`modal-open`);
+
+    closeButton.removeEventListener(`click`, closeButtonClickHandler);
+    document.removeEventListener(`keydown`, escButtonPressHandler);
+  };
+
+  const closeButtonClickHandler = () => {
+    closePicture();
+  };
+
+  const escButtonPressHandler = (evt) => {
+    window.utils.isEscapeEvent(evt, closePicture);
+  };
+
+  closeButton.addEventListener(`click`, closeButtonClickHandler);
+  document.addEventListener(`keydown`, escButtonPressHandler);
 
   bigPicture.querySelector(`.social__comment-count`).classList.add(`hidden`);
   bigPicture.querySelector(`.comments-loader`).classList.add(`hidden`);
