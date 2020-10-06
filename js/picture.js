@@ -9,13 +9,20 @@
                                   .querySelector(`.social__comment`);
   const closeButton = bigPicture.querySelector(`.big-picture__cancel`);
 
-  const photo = window.mock.photos[0];
-  const comments = photo.comments;
+  const openPicture = (photo) => {
+    bigPicture.classList.remove(`hidden`);
+    body.classList.add(`modal-open`);
 
-  bigPicture.querySelector(`.big-picture__img img`).src = photo.url;
-  bigPicture.querySelector(`.likes-count`).textContent = photo.likes;
-  bigPicture.querySelector(`.comments-count`).textContent = comments.length;
-  bigPicture.querySelector(`.social__caption`).textContent = photo.description;
+    bigPicture.querySelector(`.big-picture__img img`).src = photo.url;
+    bigPicture.querySelector(`.likes-count`).textContent = photo.likes;
+    bigPicture.querySelector(`.comments-count`).textContent = photo.comments.length;
+    bigPicture.querySelector(`.social__caption`).textContent = photo.description;
+
+    renderComments(photo);
+
+    closeButton.addEventListener(`click`, closeButtonClickHandler);
+    document.addEventListener(`keydown`, escButtonPressHandler);
+  };
 
   const renderComment = (comment) => {
     const commentItem = commentTemplate.cloneNode(true);
@@ -25,14 +32,17 @@
     return commentItem;
   };
 
-  const fragment = document.createDocumentFragment();
+  const renderComments = (photo) => {
+    const fragment = document.createDocumentFragment();
 
-  commentsList.innerHTML = ``;
-  comments.forEach((comment) => {
-    fragment.appendChild(renderComment(comment));
-  });
+    commentsList.innerHTML = ``;
+    photo.comments.forEach((comment) => {
+      fragment.appendChild(renderComment(comment));
+    });
 
-  commentsList.appendChild(fragment);
+    commentsList.appendChild(fragment);
+  };
+
 
   const closePicture = () => {
     bigPicture.classList.add(`hidden`);
@@ -50,11 +60,10 @@
     window.utils.isEscapeEvent(evt, closePicture);
   };
 
-  closeButton.addEventListener(`click`, closeButtonClickHandler);
-  document.addEventListener(`keydown`, escButtonPressHandler);
-
   bigPicture.querySelector(`.social__comment-count`).classList.add(`hidden`);
   bigPicture.querySelector(`.comments-loader`).classList.add(`hidden`);
-  bigPicture.classList.remove(`hidden`);
-  body.classList.add(`modal-open`);
+
+  window.picture = {
+    openPicture
+  };
 })();
