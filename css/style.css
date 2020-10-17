@@ -1291,6 +1291,11 @@ main {
   font-size: 32px;
 }
 
+.error__title--load {
+  margin-bottom: 30px;
+  line-height: 36px;
+}
+
 .success__title {
   margin: 0;
   margin-bottom: 50px;
