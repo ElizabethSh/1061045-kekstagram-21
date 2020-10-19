@@ -6,6 +6,7 @@
   const SIZE_STEP = 25;
   const MAX_HASHTAGS_AMOUNT = 5;
   const MAX_HASHTAG_SYMBOLS_AMOUNT = 20;
+  const URL = `https://21.javascript.pages.academy/kekstagram`;
 
   const PhotoSize = {
     MIN: 25,
@@ -13,8 +14,9 @@
   };
 
   const body = document.querySelector(`body`);
-  const uploadInput = body.querySelector(`#upload-file`);
-  const imageUpload = body.querySelector(`.img-upload__overlay`);
+  const form = body.querySelector(`.img-upload__form`);
+  const uploadInput = form.querySelector(`#upload-file`);
+  const imageUpload = form.querySelector(`.img-upload__overlay`);
   const closeButton = imageUpload.querySelector(`#upload-cancel`);
   const commentField = imageUpload.querySelector(`.text__description`);
   const hashtagField = imageUpload.querySelector(`.text__hashtags`);
@@ -29,7 +31,13 @@
   const effectLevelLine = slider.querySelector(`.effect-level__line`);
   const effectLevelPin = effectLevelLine.querySelector(`.effect-level__pin`);
   const effectLevelDepth = effectLevelLine.querySelector(`.effect-level__depth`);
-  const submitButton = imageUpload.querySelector(`#upload-submit`);
+
+  const successTemplate = body.querySelector(`#success`)
+                              .content
+                              .querySelector(`.success`);
+  const errorTemplate = body.querySelector(`#error`)
+                            .content
+                            .querySelector(`.error`);
 
   let effectValue = 100;
   let effect;
@@ -105,7 +113,7 @@
     imageUpload.classList.add(`hidden`);
     body.classList.remove(`modal-open`);
 
-    uploadInput.value = ``;
+    form.reset();
     effectItems.forEach((effectItem) => {
       effectItem.selected = false;
     });
@@ -115,6 +123,18 @@
     effectsList.removeEventListener(`click`, effectClickHandler);
     closeButton.removeEventListener(`click`, buttonCloseClickHandler);
     document.removeEventListener(`keydown`, escButtonPressHandler);
+  };
+
+  const removeSuccessMessage = () => {
+    window.galery.main.querySelector(`.success`).remove();
+
+    document.removeEventListener(`keydown`, successWindowEscPressHandler);
+  };
+
+  const removeErrorMessage = () => {
+    window.galery.main.querySelector(`.error`).remove();
+
+    document.removeEventListener(`keydown`, errorWindowEscPressHandler);
   };
 
   const uploadButtonChangeHandler = () => {
@@ -132,9 +152,70 @@
     window.utils.isEscapeEvent(evt, closeUploadForm);
   };
 
+  const errorButtonClickHandler = () => {
+    removeErrorMessage();
+  };
+
+  const errorWindowClickHandler = (evt) => {
+    const errorWindow = window.galery.main.querySelector(`.error`);
+    if (evt.target === errorWindow) {
+      evt.preventDefault();
+      removeErrorMessage();
+    }
+  };
+
+  const errorWindowEscPressHandler = (evt) => {
+    window.utils.isEscapeEvent(evt, removeErrorMessage);
+  };
+
+  const successButtonClickHandler = () => {
+    removeSuccessMessage();
+  };
+
+  const successWindowClickHandler = (evt) => {
+    const successWindow = window.galery.main.querySelector(`.success`);
+
+    if (evt.target === successWindow) {
+      evt.preventDefault();
+      removeSuccessMessage();
+    }
+  };
+
+  const successWindowEscPressHandler = (evt) => {
+    window.utils.isEscapeEvent(evt, removeSuccessMessage);
+  };
+
+  const successHandler = () => {
+    const success = successTemplate.cloneNode(true);
+
+    window.galery.main.append(success);
+    uploadInput.disabled = false;
+
+    success.querySelector(`.success__button`).addEventListener(`click`, successButtonClickHandler);
+    success.addEventListener(`click`, successWindowClickHandler);
+    document.addEventListener(`keydown`, successWindowEscPressHandler);
+  };
+
+  const errorHandler = (message) => {
+    const error = errorTemplate.cloneNode(true);
+
+    error.querySelector(`.error__title`).textContent = message;
+    window.galery.main.appendChild(error);
+    uploadInput.disabled = false;
+
+    error.querySelector(`.error__button`).addEventListener(`click`, errorButtonClickHandler);
+    error.addEventListener(`click`, errorWindowClickHandler);
+    document.addEventListener(`keydown`, errorWindowEscPressHandler);
+  };
+
   const submitClickHandler = (evt) => {
     evt.preventDefault();
+    window.backend.load(`POST`, URL, successHandler, errorHandler, new FormData(form));
+    uploadInput.disabled = true;
+    closeUploadForm();
   };
+
+  // функции наложения эффектов на фото
 
   const generateEffect = () => {
     let property;
@@ -194,6 +275,8 @@
     }
   };
 
+  // перемещение пина
+
   effectLevelPin.addEventListener(`mousedown`, (evt) => {
     evt.preventDefault();
 
@@ -236,5 +319,5 @@
   });
 
   uploadInput.addEventListener(`change`, uploadButtonChangeHandler);
-  submitButton.addEventListener(`submit`, submitClickHandler);
+  form.addEventListener(`submit`, submitClickHandler);
 })();

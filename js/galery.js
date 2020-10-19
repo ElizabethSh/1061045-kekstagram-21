@@ -53,4 +53,8 @@
   };
 
   window.backend.load(`GET`, GET_URL, successHandler, errorHandler);
+
+  window.galery = {
+    main
+  };
 })();
