@@ -3,7 +3,7 @@
 (function () {
   const TIMEOUT = 10000;
 
-  const load = (method, url, onSuccess, onError) => {
+  const load = (method, url, onSuccess, onError, body = null) => {
     const xhr = new XMLHttpRequest();
 
     xhr.responseType = `json`;
@@ -44,7 +44,7 @@
     });
 
     xhr.open(method, url);
-    xhr.send();
+    xhr.send(body);
   };
 
   window.backend = {
