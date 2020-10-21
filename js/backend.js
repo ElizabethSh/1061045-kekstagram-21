@@ -3,6 +3,13 @@
 (function () {
   const TIMEOUT = 10000;
 
+  const Code = {
+    SUCCESS: 200,
+    BAD_REQUEST: 400,
+    FORBIDDEN: 403, // проверить название
+    NOT_FOUND: 404
+  };
+
   const load = (method, url, onSuccess, onError, body = null) => {
     const xhr = new XMLHttpRequest();
 
@@ -12,16 +19,16 @@
       let error;
 
       switch (xhr.status) {
-        case 200:
+        case Code.SUCCESS:
           onSuccess(xhr.response);
           break;
-        case 400:
+        case Code.BAD_REQUEST:
           error = `${xhr.status} Неверный запрос`;
           break;
-        case 401:
+        case Code.FORBIDDEN:
           error = `${xhr.status} Пользователь не авторизован`;
           break;
-        case 404:
+        case Code.NOT_FOUND:
           error = `${xhr.status} Ничего не найдено`;
           break;
 
