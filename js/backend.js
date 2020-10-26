@@ -6,7 +6,7 @@
   const Code = {
     SUCCESS: 200,
     BAD_REQUEST: 400,
-    FORBIDDEN: 403, // проверить название
+    FORBIDDEN: 403,
     NOT_FOUND: 404
   };
 
@@ -57,5 +57,4 @@
   window.backend = {
     load
   };
-
 })();
