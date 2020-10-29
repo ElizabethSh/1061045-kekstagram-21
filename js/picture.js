@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 (function () {
   const MAX_COMMENT_COUNT = 5;
