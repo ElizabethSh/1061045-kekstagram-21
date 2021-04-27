@@ -24,6 +24,7 @@
   const scaleControlSmaller = imageUpload.querySelector(`.scale__control--smaller`);
   const scaleControlBigger = imageUpload.querySelector(`.scale__control--bigger`);
   const preview = imageUpload.querySelector(`.img-upload__preview img`);
+  const smallPreviews = imageUpload.querySelectorAll(`.effects__preview`);
   const effectsList = imageUpload.querySelector(`.effects__list`);
   const effectItems = effectsList.querySelectorAll(`.effects__item`);
   const slider = imageUpload.querySelector(`.img-upload__effect-level`);
@@ -98,6 +99,8 @@
     imageUpload.classList.remove(`hidden`);
     body.classList.add(`modal-open`);
     slider.classList.add(`hidden`);
+
+    window.addPhoto(uploadInput, preview, smallPreviews);
 
     preview.style.filter = ``;
     effectLevelValue.defaultValue = effectValue;
