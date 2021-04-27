@@ -11,15 +11,13 @@
 
   const main = document.querySelector(`main`);
   const pictureTemplate = document.querySelector(`#picture`)
-                                  .content
-                                  .querySelector(`.picture`);
+    .content.querySelector(`.picture`);
   const picturesList = main.querySelector(`.pictures`);
   const filterList = main.querySelector(`.img-filters`);
   const filters = filterList.querySelectorAll(`.img-filters__button`);
 
   const errorLoadTemplate = document.querySelector(`#error-load`)
-                                    .content
-                                    .querySelector(`.error`);
+    .content.querySelector(`.error`);
 
   let photos;
 
@@ -59,12 +57,16 @@
     return arr;
   };
 
+  const removePictures = () => {
+    const pictures = picturesList.querySelectorAll(`.picture`);
+    pictures.forEach((item) => item.remove());
+  };
+
   const updateGalery = (evt) => {
     filters.forEach((filter) => filter.classList.remove(`img-filters__button--active`));
     evt.target.classList.add(`img-filters__button--active`);
 
-    const pictures = picturesList.querySelectorAll(`.picture`);
-    pictures.forEach((item) => item.remove());
+    removePictures();
 
     let userPhotos;
     switch (evt.target.id) {
