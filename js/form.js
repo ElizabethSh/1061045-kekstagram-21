@@ -2,7 +2,7 @@
 
 (function () {
   const SCALE_DEFAULT_VALUE = 100;
-  const URL = `https://21.javascript.pages.academy/kekstagram`;
+  const URL = `https://24.javascript.pages.academy/kekstagram`;
 
   const preview = window.effect.preview;
   const uploadInput = window.error.uploadInput;

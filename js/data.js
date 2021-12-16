@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  const GET_URL = `https://21.javascript.pages.academy/kekstagram/data`;
+  const GET_URL = `https://24.javascript.pages.academy/kekstagram/data`;
 
   const filterList = window.filter.filterList;
   const main = window.galery.main;
